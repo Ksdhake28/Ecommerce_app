@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import Card from "../components/productCard";
 import SearchBar from "../components/Searchbar";
 import Catbutton from "../components/categorybutton";
+import { useNavigate } from "react-router-dom";
 
 function Home({addToCart}) {
     const [productsData, setProducts] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,6 +21,10 @@ function Home({addToCart}) {
 
         fetchData();
     }, []);
+
+    const handelClick = (id) => {
+        navigate(`/product/${id}`)        
+    }
 
     return (
         <>
@@ -35,6 +41,7 @@ function Home({addToCart}) {
                         price={product.price}
                         image={product.image}
                         addToCart={addToCart}
+                        onClick={() => handelClick(product.id)}
                     />
                 ))}
             </div>

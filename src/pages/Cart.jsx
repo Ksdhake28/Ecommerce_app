@@ -4,11 +4,19 @@ import Sidebar from "../components/Sidebar";
 import CartStrip from "../components/CartStrip.jsx";
 import TotalAmount from "../components/TotalAmount.jsx";
 
-function Cart({ cartItems, removeFromCart }) {
-  console.log(cartItems);
+function Cart({ cartItems, setCartItems, removeFromCart }) {
   const [Total, setTotal] = useState(0);
 
-  // Calculate total when cartItems change
+  // Update cart item quantity and recalculate total
+  const handleQtyChange = (id, newQty) => {
+    const updatedCart = cartItems.map((product) => 
+      product.id === id ? { ...product, qty: newQty } : product
+    );
+
+    setCartItems(updatedCart); // Update state in Cart
+  };
+
+  // Recalculate total whenever cartItems change
   useEffect(() => {
     const newTotal = cartItems.reduce(
       (sum, product) => sum + product.price * product.qty,
@@ -22,9 +30,7 @@ function Cart({ cartItems, removeFromCart }) {
       <Sidebar className="w-1/4" />
       <div className="flex-1 bg-gray-100 p-6">
         <SearchBar />
-        {/* Use flex-col on small screens and flex-row on large screens */}
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Cart Items Section */}
           <div className="w-full lg:w-2/3">
             {cartItems.length === 0 ? (
               <p className="text-3xl text-gray-500 font-display mt-10 px-4">
@@ -36,14 +42,15 @@ function Cart({ cartItems, removeFromCart }) {
                   key={product.id}
                   id={product.id}
                   title={product.title}
-                  price={product.price * product.qty}
+                  price={product.price}
+                  qty={product.qty} // Pass qty to CartStrip
                   image={product.image}
+                  onQtyChange={handleQtyChange} // Pass qty handler
                   onRemove={removeFromCart}
                 />
               ))
             )}
           </div>
-          {/* Checkout/Total Amount Section */}
           <div className="w-full lg:w-1/3">
             <TotalAmount total={Total} />
           </div>

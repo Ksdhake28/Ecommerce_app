@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
+import ProductDescription from "./pages/ProductDescription";
 
 function App() {
   let [cartItems, setCartItems] = useState(() => {
@@ -40,6 +41,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home addToCart={addToCart} />} />
         <Route path="/cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart}/>} />
+        <Route path="/product/:id" element={<ProductDescription />}/>
       </Routes>
     </Router>
   );
