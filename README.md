@@ -1,4 +1,4 @@
-#E-commerce App
+# **E-commerce App**  
 
 🚀 Overview
 
@@ -30,4 +30,5 @@ Icons: Lucide React
 
 API: FakeStoreAPI
 
-#Made with ❤️ by Kshitij Dhake
+---
+Made with ❤️ by Kshitij Dhake
