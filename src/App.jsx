@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import ProductDescription from "./pages/ProductDescription";
+import ExploreByCategory from "./pages/ExploreByCategory";
+import CheckOut from "./pages/CheckOut";
 
 function App() {
   let [cartItems, setCartItems] = useState(() => {
@@ -42,6 +44,8 @@ function App() {
         <Route path="/" element={<Home addToCart={addToCart} />} />
         <Route path="/cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart}/>} />
         <Route path="/product/:id" element={<ProductDescription />}/>
+        <Route path="/categories" element={<ExploreByCategory/>}/>
+        <Route path="/checkout" element={<CheckOut />} />
       </Routes>
     </Router>
   );

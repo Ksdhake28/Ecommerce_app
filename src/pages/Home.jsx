@@ -22,10 +22,6 @@ function Home({addToCart}) {
         fetchData();
     }, []);
 
-    const handelClick = (id) => {
-        navigate(`/product/${id}`)        
-    }
-
     return (
         <>
             <div className="flex justify-center items-center">
@@ -41,7 +37,6 @@ function Home({addToCart}) {
                         price={product.price}
                         image={product.image}
                         addToCart={addToCart}
-                        onClick={() => handelClick(product.id)}
                     />
                 ))}
             </div>
