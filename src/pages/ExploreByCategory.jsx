@@ -5,7 +5,7 @@ import CategoryItems from "../components/CategoryItems";
 function ExploreByCategory() {
     const [categories, setCategories] = useState([]);
     const location = useLocation();
-    const selectedCategory = location.state?.selectedCategory || null; // Get category from state
+    const selectedCategory = location.state?.selectedCategory || null;
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -18,17 +18,34 @@ function ExploreByCategory() {
             }
         };
 
-        
         fetchCategories();
-    }, []);
+
+        // Scroll to selected category if present
+        if (selectedCategory) {
+            const element = document.getElementById(selectedCategory);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+    }, [selectedCategory]);
 
     return (
-        <div>
-            {categories.map((category, index) => (
-                <div key={index} id={category} className={selectedCategory === category ? "bg-gray-200 p-4 rounded-md" : ""}>
-                    <CategoryItems category={category} />
-                </div>
-            ))}
+        <div className="container mx-auto px-4 py-8">
+            <div className="space-y-8">
+                {categories.map((category, index) => (
+                    <div 
+                        key={index} 
+                        id={category} 
+                        className={`${
+                            selectedCategory === category 
+                            ? "bg-blue-50 p-6 rounded-lg shadow-md" 
+                            : "p-6 rounded-lg shadow-md"
+                        }`}
+                    >
+                        <CategoryItems category={category} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

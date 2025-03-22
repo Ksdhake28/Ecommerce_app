@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../components/Searchbar";
 import Sidebar from "../components/Sidebar";
 import CartStrip from "../components/CartStrip.jsx";
 import TotalAmount from "../components/TotalAmount.jsx";
@@ -29,7 +28,6 @@ function Cart({ cartItems, setCartItems, removeFromCart }) {
     <div className="flex">
       <Sidebar className="w-1/4" />
       <div className="flex-1 bg-gray-100 p-6">
-        <SearchBar />
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="w-full lg:w-2/3">
             {cartItems.length === 0 ? (
