@@ -1,8 +1,34 @@
-# React + Vite
+# **E-commerce App**  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 Overview
 
-Currently, two official plugins are available:
+This is an E-commerce application built using React.js and Tailwind CSS. The application provides users with a seamless shopping experience, featuring category-based product exploration, a shopping cart, and secure checkout.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✨ Features
+
+📌 Home Page – Displays featured products and promotions
+
+📂 Sidebar Navigation – Browse products by categories
+
+🛒 Cart Management – Add, remove, and manage items in the cart
+
+✅ Checkout Page – Secure order placement
+
+🔐 User Authentication – Login & Wishlist functionality (to be implemented)
+
+🌐 API Integration – Uses FakeStoreAPI for dynamic product data
+
+🛠️ Technologies Used
+
+Frontend: React.js, Tailwind CSS
+
+State Management: useState, useEffect
+
+Routing: React Router DOM
+
+Icons: Lucide React
+
+API: FakeStoreAPI
+
+---
+Made with ❤️ by Kshitij Dhake
