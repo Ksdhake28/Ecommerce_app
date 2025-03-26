@@ -1,28 +1,36 @@
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
-import QtySetter from "./QtySetter";
+import QtySetter from "../cart/QtySetter";
 import { useNavigate } from "react-router-dom";
 
 function ProductCard(props) {
-    const { addToCart } = props;
-    let [inCart, setInCart] = useState(false);
+    const { addToCart, removeFromCart } = props;
+    const [inCart, setInCart] = useState(false);
+    const [currentQty, setCurrentQty] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const storedInCart = JSON.parse(localStorage.getItem("cart")) || [];
-        const isItemInCart = storedInCart.some((item) => item.id === props.id);
-        setInCart(isItemInCart);
+        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartItem = storedCart.find((item) => item.id === props.id);
+        if (cartItem) {
+            setInCart(true);
+            setCurrentQty(cartItem.qty);
+        }
     }, [props.id]);
-
-    const handleClick = () => {
-        setInCart(true);
-        addToCart({ ...props, qty: 1 });
-    };
 
     const handleQtyChange = (qty) => {
         if (qty === 0) {
             setInCart(false);
+            removeFromCart(props.id);
+        } else {
+            setCurrentQty(qty);
+            addToCart({ ...props, qty });
         }
+    };
+
+    const handleClick = () => {
+        setInCart(true);
+        addToCart({ ...props, qty: 1 });
     };
 
     const displayDetails = (id) => {
@@ -43,8 +51,10 @@ function ProductCard(props) {
             </div>
             <div className="mt-5 font-display flex flex-col flex-grow">
                 <p className="text-xl overflow-clip">
-                    {props.title.split(" ").slice(0, 6).join(" ")}{" "}{/* Show first 5 words */}
-                    {props.title.split(" ").length > 6 && " ..."}{" "}{/* Add "..." if truncated */}
+                    {props.title.split(" ").slice(0, 6).join(" ")}{" "}
+                    {/* Show first 5 words */}
+                    {props.title.split(" ").length > 6 && " ..."}{" "}
+                    {/* Add "..." if truncated */}
                 </p>
                 <h2 className="text-2xl mt-2 font-medium">{props.price}</h2>
                 <div className="flex items-center justify-center cursor-pointer">

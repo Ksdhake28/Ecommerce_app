@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useCart } from '../hooks/useCart';
+import Sidebar from "../components/common/layout/Sidebar";
+import QtySetter from "../components/cart/QtySetter";
 
 function ProductDescription() {
     const { id } = useParams();
     const [product, setProductData] = useState(null);
+    const { cartItems, addToCart, removeFromCart, updateQuantity } = useCart();
+    const [inCart, setInCart] = useState(false);
+    const [currentQty, setCurrentQty] = useState(1);
 
     useEffect(() => {
         async function getProduct() {
             try {
-                const response = await fetch(
-                    `https://fakestoreapi.com/products/${id}`
-                );
+                const response = await fetch(`https://fakestoreapi.com/products/${id}`);
                 const productData = await response.json();
                 setProductData(productData);
             } catch (err) {
@@ -19,9 +22,29 @@ function ProductDescription() {
             }
         }
         getProduct();
-    }, [id]);
 
-    // **Handle loading state** to avoid null product access issues
+        const cartItem = cartItems.find(item => item.id === parseInt(id));
+        if(cartItem) {
+            setInCart(true);
+            setCurrentQty(cartItem.qty);
+        }
+    }, [id, cartItems]);
+
+    const handleQtyChange = (qty) => {
+        if (qty === 0) {
+            setInCart(false);
+            removeFromCart(parseInt(id));
+        } else {
+            setCurrentQty(qty);
+            updateQuantity(parseInt(id), qty);
+        }
+    };
+
+    const handleAddToCart = () => {
+        setInCart(true);
+        addToCart({ ...product, qty: 1 });
+    };
+
     if (!product) {
         return (
             <p className="text-center text-xl mt-10">
@@ -62,16 +85,30 @@ function ProductDescription() {
 
                             {/* Product Rating */}
                             <div className="mt-2">
-                                <p className="text-lg font-medium text-gray-700">Rating: {product.rating?.rate} ⭐ ({product.rating?.count} reviews)</p>
+                                <p className="text-lg font-medium text-gray-700">
+                                    Rating: {product.rating?.rate} ⭐ (
+                                    {product.rating?.count} reviews)
+                                </p>
                             </div>
 
                             <div className="mt-6 flex space-x-4">
                                 <button className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
                                     Add to WishList
                                 </button>
-                                <button className="bg-green-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-green-700 transition duration-300">
-                                    Add to Cart
-                                </button>
+                                {inCart ? (
+                                    <QtySetter
+                                        onQtyChange={handleQtyChange}
+                                        product={product}
+                                        initialQty={currentQty}
+                                    />
+                                ) : (
+                                    <button
+                                        onClick={handleAddToCart}
+                                        className="bg-green-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-green-700 transition duration-300"
+                                    >
+                                        Add to Cart
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
