@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import CategoryItems from "../components/CategoryItems";
+
 
 function ExploreByCategory() {
     const [categories, setCategories] = useState([]);
